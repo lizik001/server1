@@ -9,7 +9,21 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// Определение структуры User
+
 var db *sql.DB
+
+type User struct {
+	ID      int    `json:"id"`
+	Name    string `json:"name"`
+	Balance int    `json:"balance"`
+}
+
+type Quest struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+	Cost int    `json:"cost"`
+}
 
 func main() {
 	// Устанавливаем соединение с базой данных
@@ -245,3 +259,50 @@ func getUserHistory(c *gin.Context) {
 	})
 
 }
+
+// package main
+
+// import (
+// 	"database/sql"
+// 	"net/http"
+
+// 	"github.com/gin-gonic/gin"
+// 	_ "github.com/go-sql-driver/mysql"
+// )
+
+// func main() {
+// 	db, err := sql.Open("mysql", "root:roo@tcp(localhost:3306)/test")
+// 	if err != nil {
+// 		panic(err.Error())
+// 	}
+// 	defer db.Close()
+
+// 	router := gin.Default()
+
+// 	router.GET("/", func(c *gin.Context) {
+// 		c.JSON(200, gin.H{
+// 			"message": "pong",
+// 		})
+// 	})
+
+// 	router.POST("/user", func(c *gin.Context) {
+// 		var user struct {
+// 			Name string `json:"name" binding:"required"`
+// 		}
+
+// 		if err := c.BindJSON(&user); err != nil {
+// 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 			return
+// 		}
+
+// 		_, err := db.Exec("INSERT INTO users (name) VALUES (?)", user.Name)
+// 		if err != nil {
+// 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert data"})
+// 			return
+// 		}
+
+// 		c.JSON(http.StatusOK, gin.H{"message": "User added successfully"})
+// 	})
+
+// 	router.Run() // listen and serve on 0.0.0.0:8080
+// }
