@@ -9,3 +9,12 @@ CREATE TABLE IF NOT EXISTS quests (
     name VARCHAR(255) NOT NULL,
     cost INT DEFAULT 0
 );
+
+CREATE TABLE IF NOT EXISTS completed_quests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    quest_id INT NOT NULL,
+    completion_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (quest_id) REFERENCES quests(id)
+);
