@@ -2,6 +2,49 @@
 
 Проект REST API сервиса для учета заданий пользователей.
 
+## Для исользования backend вам понадобится :
+
+Установите MySQL на компьютер https://www.mysql.com/
+
+Авторизуйтесь с помощью команды 
+
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
+```
+
+Создайте у себя базу данных, назвав ее "test" с омощью команды 
+
+```sql
+CREATE DATABASE TEST;
+```
+
+Вставьте следующие команды: 
+
+```sql
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    balance INT DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS quests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    cost INT DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS completed_quests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    quest_id INT NOT NULL,
+    completion_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (quest_id) REFERENCES quests(id)
+);
+```
+
+### После запуска backend используйте программу Postman или любой другой клиент API  
+
 ## Установка и запуск
 
 1. Клонировать репозиторий:
@@ -13,20 +56,20 @@ git clone https://github.com/lizik001/server1.git
 
 cd myproject
 
-3. Установить зависимости (если есть):
+3. Установить зависимости:
 
-npm install
+go mod tidy
 
 4. Запустить приложение:
 
 go run main.go
-shell
+
 
 ## Описание API методов
 
 ### Метод создания пользователя
 
-POST /users
+POST http://localhost:8080/users
 
 Параметры запроса:
 
@@ -39,12 +82,12 @@ POST /users
 "name": "John",
 "balance": 0
 }
-shell
+
 
 ### Метод создания задания
 
-POST /quests
-торий:
+POST http://localhost:8080/quests
+
 
 git clone https:
 - name (string): Название задания.
@@ -57,14 +100,13 @@ git clone https:
 "name": "Task 1",
 "cost": 10
 }
-shell
+
 
 ### Метод завершения задания
 
-POST /complete
-й:
+POST http://localhost:8080/complete:
 
-git clone https://gi
+git clone https://git
 - user_id (number): Идентификатор пользователя.
 - quest_id (number): Идентификатор задания.
 
@@ -73,11 +115,11 @@ git clone https://gi
 {
 "message": "Quest completed successfully"
 }
-shell
+
 
 ### Метод получения истории выполненных заданий и баланса пользователя
 
-GET /users/:userId/history
+GET http://localhost:8080/users/:userId/history
 
 Параметры запроса:
 
@@ -100,24 +142,24 @@ GET /users/:userId/history
 ],
 "balance": 25
 }
-shell
+
 
 ## Примеры использования API
 
 ### Создание пользователя
 
 curl -X POST -H "Content-Type: application/json" -d '{"name":"John"}' http://localhost:8000/users
-shell
+
 
 ### Создание задания
 
 curl -X POST -H "Content-Type: application/json" -d '{"name":"Task 1","cost":10}' http://localhost:8000/quests
-shell
+
 
 ### Завершение задания
 
 curl -X POST -H "Content-Type: application/json" -d '{"user_id":1,"quest_id":1}' http://localhost:8000/complete
-shell
+
 
 ### Получение истории выполненных заданий и баланса пользователя
 
