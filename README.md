@@ -77,12 +77,11 @@ POST http://localhost:8080/users
 
 Формат ответа:
 
+```json
 {
-"id": 1,
-"name": "John",
-"balance": 0
+  "userID": 2
 }
-
+```
 
 ### Метод создания задания
 
@@ -95,31 +94,32 @@ git clone https:
 
 Формат ответа:
 
+```json
 {
-"id": 1,
-"name": "Task 1",
-"cost": 10
+  "questID": 2
 }
+```
 
 
 ### Метод завершения задания
 
 POST http://localhost:8080/complete:
 
-git clone https://git
+
 - user_id (number): Идентификатор пользователя.
 - quest_id (number): Идентификатор задания.
 
 Формат ответа:
 
+```json
 {
 "message": "Quest completed successfully"
 }
-
+```
 
 ### Метод получения истории выполненных заданий и баланса пользователя
 
-GET http://localhost:8080/users/:userId/history
+GET http://localhost:8080/history/:userId
 
 Параметры запроса:
 
@@ -127,41 +127,38 @@ GET http://localhost:8080/users/:userId/history
 
 Формат ответа:
 
+```json
 {
-"history": [
-{
-"id": 1,
-"name": "Task 1",
-"cost": 10
-},
-{
-"id": 2,
-"name": "Task 2",
-"cost": 15
+  "balance": 10,
+  "history": [
+    {
+      "cost": 10,
+      "id": 1,
+      "name": "user0"
+    }
+  ]
 }
-],
-"balance": 25
-}
+```
 
 
 ## Примеры использования API
 
 ### Создание пользователя
 
-curl -X POST -H "Content-Type: application/json" -d '{"name":"John"}' http://localhost:8000/users
+curl -X POST -H "Content-Type: application/json" -d '{"name":"John"}' http://localhost:8080/users
 
 
 ### Создание задания
 
-curl -X POST -H "Content-Type: application/json" -d '{"name":"Task 1","cost":10}' http://localhost:8000/quests
+curl -X POST -H "Content-Type: application/json" -d '{"name":"Task 1","cost":10}' http://localhost:8080/quests
 
 
 ### Завершение задания
 
-curl -X POST -H "Content-Type: application/json" -d '{"user_id":1,"quest_id":1}' http://localhost:8000/complete
+curl -X POST -H "Content-Type: application/json" -d '{"user_id":1,"quest_id":1}' http://localhost:8080/complete
 
 
 ### Получение истории выполненных заданий и баланса пользователя
 
-curl http://localhost:8000/users/1/history
+curl http://localhost:8080/history/1
 
